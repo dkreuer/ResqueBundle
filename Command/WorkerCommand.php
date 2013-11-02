@@ -19,6 +19,7 @@ class WorkerCommand extends ContainerAwareCommand {
             ->addOption('forkCount', 'f', InputOption::VALUE_OPTIONAL, 'Fork count instances', 1)
             ->addOption('daemon', null, \Symfony\Component\Console\Input\InputOption::VALUE_NONE, 'Run worker as daemon')
             ->addOption('stop', null, \Symfony\Component\Console\Input\InputOption::VALUE_NONE, 'Run worker as daemon')
+            ->addOption('pid-file', null, InputOption::VALUE_OPTIONAL, 'Path to pid file, overrides config value')
             ->setHelp(<<<EOF
 Worker will run all jobs enqueue by PHPResqueBundle\Resque\Queue command line and defined by Queue class.
 You can run more than one queue per time. In this case input all queues names separated by commas on the 'queue' argument.
@@ -27,7 +28,10 @@ EOF
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $pidFile = $this->getContainer()->getParameter('resque_pid');
+        $pidFile = $input->getOption('pid-file');
+        if (is_null($pidFile)) {
+            $pidFile = $this->getContainer()->getParameter('resque_pid');
+        }
 
         if ($input->getOption('daemon')) {
             $this->startDaemon(
