@@ -40,7 +40,7 @@ EOF
             );
         }
         elseif($input->getOption('stop')) {
-            $this->stopDaemon($pid, $output);
+            $this->stopDaemon($pidFile, $output);
         }
         else {
             $this->work(
