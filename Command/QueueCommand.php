@@ -27,6 +27,7 @@ EOF
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
+        $args = array();
         if($input->getArgument('args') != null) {
             $args = json_decode($input->getArgument('args'));
         }
