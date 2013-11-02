@@ -24,6 +24,7 @@ class Configuration implements ConfigurationInterface
             ->children()
             ->scalarNode('prefix')->isRequired()->end()
             ->scalarNode('redis_backend')->end()
+            ->scalarNode('resque_pid')->end()
             ->end();
 
         return $treeBuilder;
